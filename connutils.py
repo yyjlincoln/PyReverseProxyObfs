@@ -32,6 +32,7 @@ def TCPHandler(bindaddress, redirection_address):
     '''redirection_address should be a function, and it should take in socket, addr and return address tuple or None.'''
     so = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     so.bind(bindaddress)
+    so.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     so.listen(10)
     while True:
         sx, addr = so.accept()
