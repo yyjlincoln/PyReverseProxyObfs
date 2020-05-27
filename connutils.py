@@ -25,7 +25,7 @@ def unpack(packed):
     Returns DataType, Data
     '''
     Calc=len(packed)-struct.calcsize('i')
-    DataType, Data = struct.unpack('i'+str(len(Calc))+'s',Calc)
+    DataType, Data = struct.unpack('i'+str(Calc)+'s',packed)
     return DataType, Data
 
 def TCPHandler(bindaddress, redirection_address):
