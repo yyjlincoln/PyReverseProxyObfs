@@ -20,7 +20,7 @@ conf = {
 # Solution: Get another layer of package
 
 def sendproc(data):
-    data = data.split('\r\n\r\n')[-1]
+    data = data.split(b'\r\n\r\n')[-1]
     data = decrypt(data)
     # if msgtype==1:
     #     # TCP, pass to default handler
