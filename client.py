@@ -3,11 +3,10 @@ from encryptionutils import encrypt, decrypt
 import json
 
 conf = {
-    # Distingush "address" "serveraddress" "localaddress"
-    'address':'extremecraft.net',
-    'port':80,
+    'address':input('Please input the ip address of the server>'),
+    'port':25565,
     'localaddress':'localhost',
-    'localport':8086,
+    'localport':25565,
     'serveraddress':'stream.mcsrv.icu',
     'serverport':80
 }
