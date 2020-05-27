@@ -7,7 +7,7 @@ conf = {
     'address':'play.extremecraft.net',
     'port':80,
     'localaddress':'localhost',
-    'localport':8082,
+    'localport':8080,
     'serveraddress':'stream.mcsrv.icu',
     'serverport':80
 }

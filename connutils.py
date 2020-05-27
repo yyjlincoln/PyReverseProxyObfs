@@ -48,7 +48,10 @@ def TCPHandlerPreConnection(sx, addr, redirection_address):
             dest.connect(destaddr)
         except:
             print('Can not establish connection to address',destaddr,'!')
-            sx.shutdown(socket.SHUT_RDWR)
+            try:
+                sx.shutdown(socket.SHUT_RDWR)
+            except:
+                pass
             sx.close()
             return
         
@@ -64,7 +67,11 @@ def TCPHandlerPreConnection(sx, addr, redirection_address):
         print('Warning: Connnection is not handled by the default handler.')
     elif destaddr==False:
         print('Warning: Disconnecting both sockets')
-        sx.shutdown(socket.SHUT_RDWR)
+        try:
+            sx.shutdown(socket.SHUT_RDWR)
+        except:
+            pass
+
         sx.close()
     else:
         print('Invalid destaddr!')
@@ -77,8 +84,11 @@ def TCPHandlerWorker(fromhand, tohand, proc):
             data = fromhand.recv(2048)
             if data==b'':
                 print('Connection Reset!')
-                fromhand.shutdown(socket.SHUT_RDWR)
-                tohand.shutdown(socket.SHUT_RDWR)
+                try:
+                    fromhand.shutdown(socket.SHUT_RDWR)
+                    tohand.shutdown(socket.SHUT_RDWR)
+                except:
+                    pass
                 fromhand.close()
                 tohand.close()
                 return
