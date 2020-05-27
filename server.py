@@ -27,7 +27,8 @@ def redirection_mapping(sx, addr):
         datatype, data = unpack(raw)
     except Exception as e:
         sx.send(b'''HTTP/1.1 403 Forbidden\r\n\r\n''')
-        print(e)
+        # print(e)
+        raise e
         return False, None, None
     
     if datatype!=3:
