@@ -28,7 +28,7 @@ def sendconfig(sx,dest):
     # CTL was sent to the wrong request
     print('Sent CTL')
     
-    sx.send(encrypt(pack(3,json.dumps({
+    dest.send(encrypt(pack(3,json.dumps({
         'address':conf['address'],
         'port':conf['port']
     }).encode())))
