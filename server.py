@@ -5,6 +5,7 @@ import json
 def recvproc(data):
     try:
         data = decrypt(data)
+        return data
     except:
         print('Exception')
         return None
