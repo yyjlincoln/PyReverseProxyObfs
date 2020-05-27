@@ -18,25 +18,26 @@ conf = {
 # Solution: Get another layer of package
 
 def sendproc(data):
-    msgtype, data = unpack(decrypt(data))
-    if msgtype==1:
-        # TCP, pass to default handler
-        return data
-    elif msgtype==2:
-        # UDP
-        print('UDP is currently not supported')
-    elif msgtype==3:
-        print('Control Message')
+    data = decrypt(data)
+    # if msgtype==1:
+    #     # TCP, pass to default handler
+    #     return data
+    # elif msgtype==2:
+    #     # UDP
+    #     print('UDP is currently not supported')
+    # elif msgtype==3:
+    #     print('Control Message')
+    return data
 
 def sendconfig(sx,dest):
     # Send the configuration to the server at the start of each connection
     # CTL was sent to the wrong request
     print('Sent CTL')
     
-    dest.send(encrypt(pack(3,json.dumps({
+    dest.send(encrypt(json.dumps({
         'address':conf['address'],
         'port':conf['port']
-    }).encode())))
+    }).encode()))
 
 def recvproc(data):
     # Receive message from local & excrypt to transfer to the server
