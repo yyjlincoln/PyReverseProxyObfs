@@ -2,12 +2,14 @@ from connutils import TCPHandler, pack, unpack
 from encryptionutils import encrypt, decrypt
 import json
 
+header = '''POST /stream HTTP/1.1\r\n\r\n'''
+
 conf = {
     # Distingush "address" "serveraddress" "localaddress"
-    'address':'extremecraft.net',
-    'port':80,
+    'address':input('Please input the ip address of the server>'),
+    'port':25565,
     'localaddress':'localhost',
-    'localport':8086,
+    'localport':25565,
     'serveraddress':'stream.mcsrv.icu',
     'serverport':80
 }
@@ -18,6 +20,7 @@ conf = {
 # Solution: Get another layer of package
 
 def sendproc(data):
+    data = data.split('\r\n\r\n')[-1]
     data = decrypt(data)
     # if msgtype==1:
     #     # TCP, pass to default handler
@@ -41,7 +44,7 @@ def sendconfig(sx,dest):
 
 def recvproc(data):
     # Receive message from local & excrypt to transfer to the server
-    return encrypt(data)
+    return header+encrypt(data)
 
 def redirection_mapping(sx, addr):
     # Returns the server's address

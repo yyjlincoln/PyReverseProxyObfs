@@ -2,6 +2,8 @@ from connutils import TCPHandler, pack, unpack
 from encryptionutils import encrypt, decrypt
 import json
 
+header = '''HTTP/1.1 200 OK\r\n\r\n'''
+
 def recvproc(data):
     try:
         data = decrypt(data)
@@ -20,11 +22,13 @@ def recvproc(data):
     #     print('Control Message')
 
 def sendproc(data):
-    return encrypt(data)
+    return header+encrypt(data)
 
 def redirection_mapping(sx, addr):
     try:
-        data = decrypt(sx.recv(2048)) # Receive redirection request
+        data = sx.recv(2048)
+        data = data.split('\r\n\r\n')[-1]
+        data = decrypt(data) # Receive redirection request
     except Exception as e:
         sx.send(b'''HTTP/1.1 403 Forbidden\r\n\r\n''')
         # print(e)
