@@ -38,7 +38,9 @@ def redirection_mapping(sx, addr):
 
         # Just For Dev Purposes
         while True:
-            print(sx.recv(2048))
+            d = sx.recv(2048)
+            if d!=b'':
+                print(d)
 
         return False, None, None # Shuts connection
     conf = json.loads(data)
