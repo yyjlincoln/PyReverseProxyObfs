@@ -3,8 +3,13 @@ from encryptionutils import encrypt, decrypt
 import json
 
 conf = {
+    # Distingush "address" "serveraddress" "localaddress"
     'address':'play.extremecraft.net',
-    'port':25565
+    'port':25565,
+    'localaddress':'localhost',
+    'localport':25565,
+    'serveraddress':'stream.mcsrv.icu',
+    'serverport':80
 }
 
 def sendproc(data):
@@ -23,7 +28,12 @@ def recvproc(data):
     return encrypt(pack(1, data))
 
 def redirection_mapping(sx, addr):
-    sx.send(json.dumps(conf)) # Send the configuration to the server at the start of each connection
-    return (conf['address'],conf['port']), recvproc, sendproc # Addr, recvproc, sendproc
+    # Send the configuration to the server at the start of each connection
+    sx.send(pack(3,json.dumps({
+        'address':conf['address'],
+        'port':conf['port']
+    }).encode()))
+    # Returns the server's address
+    return (conf['serveraddress'],conf['serverport']), recvproc, sendproc # Addr, recvproc, sendproc
 
-TCPHandler(('localhost',25565),redirection_mapping)
+TCPHandler((conf['localaddress'],conf['localport']),redirection_mapping)
