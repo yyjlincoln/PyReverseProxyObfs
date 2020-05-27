@@ -24,7 +24,6 @@ def sendproc(data):
 def redirection_mapping(sx, addr):
     try:
         data = decrypt(sx.recv(2048)) # Receive redirection request
-        
     except Exception as e:
         sx.send(b'''HTTP/1.1 403 Forbidden\r\n\r\n''')
         # print(e)

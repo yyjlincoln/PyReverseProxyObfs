@@ -4,12 +4,12 @@ import json
 
 conf = {
     # Distingush "address" "serveraddress" "localaddress"
-    'address':'extremecraft.net',
+    'address':'qq.com',
     'port':80,
     'localaddress':'localhost',
     'localport':8085,
     'serveraddress':'stream.mcsrv.icu',
-    'serverport':801
+    'serverport':80
 }
 
 # When the data is too big, the packet is transferred
@@ -41,7 +41,7 @@ def sendconfig(sx,dest):
 
 def recvproc(data):
     # Receive message from local & excrypt to transfer to the server
-    return encrypt(pack(1, data))
+    return encrypt(data)
 
 def redirection_mapping(sx, addr):
     # Returns the server's address
