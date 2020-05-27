@@ -36,6 +36,10 @@ def redirection_mapping(sx, addr):
         print(datatype)
         sx.send(b'''HTTP/1.1 403 Forbidden\r\n\r\n''')
 
+        # Just For Dev Purposes
+        while True:
+            print(sx.recv(2048))
+
         return False, None, None # Shuts connection
     conf = json.loads(data)
     print('CONFIG',conf)
