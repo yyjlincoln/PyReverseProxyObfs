@@ -5,9 +5,9 @@ import json
 conf = {
     # Distingush "address" "serveraddress" "localaddress"
     'address':'play.extremecraft.net',
-    'port':25565,
+    'port':80,
     'localaddress':'localhost',
-    'localport':25565,
+    'localport':8080,
     'serveraddress':'stream.mcsrv.icu',
     'serverport':80
 }
@@ -34,6 +34,6 @@ def redirection_mapping(sx, addr):
         'port':conf['port']
     }).encode()))
     # Returns the server's address
-    return (conf['serveraddress'],conf['serverport']), recvproc, sendproc # Addr, recvproc, sendproc
+    return (conf['serveraddress'],conf['serverport']), sendproc, recvproc # Addr, recvproc, sendproc
 
 TCPHandler((conf['localaddress'],conf['localport']),redirection_mapping)

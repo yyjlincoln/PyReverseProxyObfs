@@ -36,6 +36,6 @@ def redirection_mapping(sx, addr):
 
         return False # Shuts connection
     conf = json.loads(data)
-    return (conf['address'],conf['port']), recvproc, sendproc # Addr, recvproc, sendproc
+    return (conf['address'],conf['port']), sendproc, recvproc # Addr, recvproc, sendproc
 
 TCPHandler(('0.0.0.0',80),redirection_mapping)
