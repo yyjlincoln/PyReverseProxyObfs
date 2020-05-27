@@ -97,6 +97,7 @@ def TCPHandlerWorker(fromhand, tohand, proc):
                 tohand.close()
                 return
             data = proc(data)
+            print('ABOUT',data)
             if data:
                 tohand.send(data)
                 print('Data transferred to tohand!')
