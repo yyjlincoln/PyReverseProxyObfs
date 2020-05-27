@@ -35,7 +35,7 @@ def TCPHandler(bindaddress, redirection_address):
     so.listen(10)
     while True:
         sx, addr = so.accept()
-        taph = threading.Thread(target=TCPHandlerPreConnection,args=(sx,addr, redirection_address))
+        taph = threading.Thread(target=TCPHandlerPreConnection,args=(sx, addr, redirection_address))
         taph.setDaemon(True)
         taph.start()
 
@@ -43,15 +43,17 @@ def TCPHandlerPreConnection(sx, addr, redirection_address):
     destaddr, recvproc, sendproc  = redirection_address(sx, addr)
     if isinstance(destaddr, tuple):
         try:
-            dest = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+            dest = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
             dest.connect(destaddr)
         except:
             print('Can not establish connection to address',destaddr,'!')
             sx.shutdown(socket.SHUT_RDWR)
             sx.close()
             return
-            
+        
+        print('Starting f2t thread...')
         f2t = threading.Thread(target=TCPHandlerWorker, args=(sx, dest, sendproc))
+        print('Starting t2f thread...')
         t2f = threading.Thread(target=TCPHandlerWorker, args=(dest, sx, recvproc))
         f2t.setDaemon(True)
         t2f.setDaemon(True)
