@@ -27,15 +27,16 @@ def redirection_mapping(sx, addr):
         datatype, data = unpack(raw)
     except:
         sx.send(b'''HTTP/1.1 403 Forbidden\r\n\r\n''')
-        return False
+        return False, None, None
     
     if datatype!=3:
         print('First datatype must be CTL.')
         
         sx.send(b'''HTTP/1.1 403 Forbidden\r\n\r\n''')
 
-        return False # Shuts connection
+        return False, None, None # Shuts connection
     conf = json.loads(data)
+    print('CONFIG',conf)
     return (conf['address'],conf['port']), sendproc, recvproc # Addr, recvproc, sendproc
 
 TCPHandler(('0.0.0.0',80),redirection_mapping)

@@ -29,10 +29,10 @@ def recvproc(data):
 
 def redirection_mapping(sx, addr):
     # Send the configuration to the server at the start of each connection
-    sx.send(pack(3,json.dumps({
+    sx.send(encrypt(pack(3,json.dumps({
         'address':conf['address'],
         'port':conf['port']
-    }).encode()))
+    }).encode())))
     # Returns the server's address
     return (conf['serveraddress'],conf['serverport']), sendproc, recvproc # Addr, recvproc, sendproc
 
