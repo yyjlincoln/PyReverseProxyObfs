@@ -99,6 +99,7 @@ def TCPHandlerWorker(fromhand, tohand, proc):
             data = proc(data)
             if data:
                 tohand.send(data)
+                print('Data transferred to tohand!')
         except Exception as e:
             print('Broken Connection:',e)
             return
