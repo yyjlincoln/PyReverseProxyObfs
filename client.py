@@ -7,7 +7,7 @@ conf = {
     'address':'play.extremecraft.net',
     'port':80,
     'localaddress':'localhost',
-    'localport':8084,
+    'localport':8085,
     'serveraddress':'stream.mcsrv.icu',
     'serverport':80
 }
@@ -23,18 +23,22 @@ def sendproc(data):
     elif msgtype==3:
         print('Control Message')
 
+def sendconfig(sx,dest):
+    # Send the configuration to the server at the start of each connection
+    # CTL was sent to the wrong request
+    print('Sent CTL')
+    
+    sx.send(encrypt(pack(3,json.dumps({
+        'address':conf['address'],
+        'port':conf['port']
+    }).encode())))
+
 def recvproc(data):
     # Receive message from local & excrypt to transfer to the server
     return encrypt(pack(1, data))
 
 def redirection_mapping(sx, addr):
-    # Send the configuration to the server at the start of each connection
-    print('Sent CTL')
-    sx.send(encrypt(pack(3,json.dumps({
-        'address':conf['address'],
-        'port':conf['port']
-    }).encode())))
     # Returns the server's address
     return (conf['serveraddress'],conf['serverport']), sendproc, recvproc # Addr, recvproc, sendproc
 
-TCPHandler((conf['localaddress'],conf['localport']),redirection_mapping)
+TCPHandler((conf['localaddress'],conf['localport']),redirection_mapping, sendconfig)

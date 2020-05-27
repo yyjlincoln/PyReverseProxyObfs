@@ -28,7 +28,7 @@ def unpack(packed):
     DataType, Data = struct.unpack('i'+str(Calc)+'s',packed)
     return DataType, Data
 
-def TCPHandler(bindaddress, redirection_address):
+def TCPHandler(bindaddress, redirection_address, before_transfer = None):
     '''redirection_address should be a function, and it should take in socket, addr and return address tuple or None.'''
     so = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     so.bind(bindaddress)
@@ -36,11 +36,11 @@ def TCPHandler(bindaddress, redirection_address):
     so.listen(10)
     while True:
         sx, addr = so.accept()
-        taph = threading.Thread(target=TCPHandlerPreConnection,args=(sx, addr, redirection_address))
+        taph = threading.Thread(target=TCPHandlerPreConnection,args=(sx, addr, redirection_address), kwargs={'before_transfer':before_transfer})
         taph.setDaemon(True)
         taph.start()
 
-def TCPHandlerPreConnection(sx, addr, redirection_address):
+def TCPHandlerPreConnection(sx, addr, redirection_address, before_transfer = None):
     destaddr, recvproc, sendproc  = redirection_address(sx, addr)
     if isinstance(destaddr, tuple):
         try:
@@ -54,6 +54,10 @@ def TCPHandlerPreConnection(sx, addr, redirection_address):
                 pass
             sx.close()
             return
+        
+        if callable(before_transfer):
+            before_transfer(sx, dest)
+                
         
         print('Starting f2t thread...')
         f2t = threading.Thread(target=TCPHandlerWorker, args=(sx, dest, sendproc))
