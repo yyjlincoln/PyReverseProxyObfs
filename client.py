@@ -4,13 +4,18 @@ import json
 
 conf = {
     # Distingush "address" "serveraddress" "localaddress"
-    'address':'play.extremecraft.net',
+    'address':'extremecraft.net',
     'port':80,
     'localaddress':'localhost',
-    'localport':8084,
+    'localport':8085,
     'serveraddress':'stream.mcsrv.icu',
-    'serverport':80
+    'serverport':801
 }
+
+# When the data is too big, the packet is transferred
+# in multiple packets so it will cause decryption error.
+
+# Solution: Get another layer of package
 
 def sendproc(data):
     msgtype, data = unpack(decrypt(data))
