@@ -102,6 +102,5 @@ def TCPHandlerWorker(fromhand, tohand, proc):
                 print('Data transferred to tohand!')
         except Exception as e:
             print('Broken Connection:',e)
-            raise
             return
     
