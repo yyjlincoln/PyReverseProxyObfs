@@ -33,7 +33,7 @@ def redirection_mapping(sx, addr):
     
     if datatype!=3:
         print('First datatype must be CTL.')
-        print(datatype, data)
+        print(datatype)
         sx.send(b'''HTTP/1.1 403 Forbidden\r\n\r\n''')
 
         return False, None, None # Shuts connection

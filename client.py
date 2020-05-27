@@ -7,7 +7,7 @@ conf = {
     'address':'play.extremecraft.net',
     'port':80,
     'localaddress':'localhost',
-    'localport':8083,
+    'localport':8084,
     'serveraddress':'stream.mcsrv.icu',
     'serverport':80
 }
@@ -29,6 +29,7 @@ def recvproc(data):
 
 def redirection_mapping(sx, addr):
     # Send the configuration to the server at the start of each connection
+    print('Sent CTL')
     sx.send(encrypt(pack(3,json.dumps({
         'address':conf['address'],
         'port':conf['port']
