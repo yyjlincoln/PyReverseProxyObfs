@@ -4,10 +4,10 @@ import json
 
 conf = {
     # Distingush "address" "serveraddress" "localaddress"
-    'address':'qq.com',
+    'address':'extremecraft.net',
     'port':80,
     'localaddress':'localhost',
-    'localport':8085,
+    'localport':8086,
     'serveraddress':'stream.mcsrv.icu',
     'serverport':80
 }
