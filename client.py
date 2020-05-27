@@ -2,7 +2,7 @@ from connutils import TCPHandler, pack, unpack
 from encryptionutils import encrypt, decrypt
 import json
 
-header = '''POST /stream HTTP/1.1\r\n\r\n'''
+header = b'''POST /stream HTTP/1.1\r\n\r\n'''
 
 conf = {
     # Distingush "address" "serveraddress" "localaddress"

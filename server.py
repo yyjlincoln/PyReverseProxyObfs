@@ -2,7 +2,7 @@ from connutils import TCPHandler, pack, unpack
 from encryptionutils import encrypt, decrypt
 import json
 
-header = '''HTTP/1.1 200 OK\r\n\r\n'''
+header = b'''HTTP/1.1 200 OK\r\n\r\n'''
 
 def recvproc(data):
     try:
