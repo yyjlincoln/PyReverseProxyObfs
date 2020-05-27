@@ -36,10 +36,12 @@ def TCPHandler(bindaddress, redirection_address):
     while True:
         sx, addr = so.accept()
         taph = threading.Thread(target=TCPHandlerPreConnection,args=(sx,addr, redirection_address))
+        taph.setDaemon(True)
+        taph.start()
 
 def TCPHandlerPreConnection(sx, addr, redirection_address):
     destaddr, recvproc, sendproc  = redirection_address(sx, addr)
-    if destaddr:
+    if isinstance(destaddr, tuple):
         try:
             dest = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
             dest.connect(destaddr)
@@ -54,9 +56,16 @@ def TCPHandlerPreConnection(sx, addr, redirection_address):
         f2t.setDaemon(True)
         t2f.setDaemon(True)
         f2t.start()
-        t2f.start()        
-    else:
+        t2f.start()      
+    elif destaddr==None:
         print('Warning: Connnection is not handled by the default handler.')
+    elif destaddr==False:
+        print('Warning: Disconnecting both sockets')
+        sx.shutdown(socket.SHUT_RDWR)
+        sx.close()
+    else:
+        print('Invalid destaddr!')
+
         
 
 def TCPHandlerWorker(fromhand, tohand, proc):
@@ -71,7 +80,8 @@ def TCPHandlerWorker(fromhand, tohand, proc):
                 tohand.close()
                 return
             data = proc(data)
-            tohand.send(data)
+            if data:
+                tohand.send(data)
         except Exception as e:
             print('Broken Connection:',e)
             return
